@@ -24,6 +24,7 @@ jobs:
 
   fetcher:
     runs-on: ubuntu-latest
+    container: centos:centos6
 
     steps:
       - uses: actions/checkout@v1
