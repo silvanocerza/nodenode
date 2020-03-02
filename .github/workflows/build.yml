@@ -19,7 +19,7 @@ jobs:
       id: my-cache
       with:
         path: path/to/cache
-        key: ${{ runner.os }}-${{ hashFiles('**') }}
+        key: ${{ runner.os }}-${{ hashFiles('path/to/cache/**') }}
 
     - name:
       # Skips step if cache is valid
