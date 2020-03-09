@@ -17,7 +17,7 @@ jobs:
 
     - name: Generate something
       # Skips step if cache is valid
-      run:
+      run: |
         echo hello >> path/to/output/greetings.txt
         echo world >> path/to/output/greetings.txt
 
