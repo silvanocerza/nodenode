@@ -7,22 +7,18 @@ on:
 
 
 jobs:
-  cacher:
+  first-job:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+      - run: MY_VAR="FOO"
 
-    - run: mkdir -p path/to/cache
+  second-job:
+    runs-on: ubuntu-latest
+    needs: first-job
 
-    - uses: actions/cache@v1
-      id: my-cache
-      with:
-        path: path/to/cache
-        key: ${{ runner.os }}-my-cache
+    steps:
+      - run: echo $FOO
+      - run: echo ${{ env.FOO }}
 
-    - name:
-      # Skips step if cache is valid
-      if: steps.my-cache.outputs.cache-hit == false
-      run: echo hello > path/to/cache/world.txt
 
