@@ -21,10 +21,10 @@ jobs:
         echo hello >> path/to/output/greetings.txt
         echo world >> path/to/output/greetings.txt
 
-    - name: Upload greetings
+    - name: Upload something
       uses: actions/upload-artifact@v1
       with:
-        name: greetings
+        name: something
         path: path/to/output/greetings.txt
 
   windows-runner:
@@ -35,12 +35,12 @@ jobs:
       - name: Download greetings
         uses: actions/download-artifact@v1
         with:
-          name: greetings
+          name: something
 
       - name: Print it
         shell: python
         run: |
-          print(open("greetings", "r").read())
+          print(open("something\greetings", "r").read())
           print("on Windows")
 
 
@@ -52,10 +52,10 @@ jobs:
       - name: Download greetings
         uses: actions/download-artifact@v1
         with:
-          name: greetings
+          name: something
 
       - name: Print it
         shell: python
         run: |
-          print(open("greetings", "r").read())
+          print(open("something/greetings", "r").read())
           print("on Ubuntu")
