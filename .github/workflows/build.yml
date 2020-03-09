@@ -40,7 +40,7 @@ jobs:
       - name: Print it
         shell: python
         run: |
-          print(open("something\greetings", "r").read())
+          print(open("something\greetings.txt", "r").read())
           print("on Windows")
 
 
@@ -57,5 +57,5 @@ jobs:
       - name: Print it
         shell: python
         run: |
-          print(open("something/greetings", "r").read())
+          print(open("something/greetings.txt", "r").read())
           print("on Ubuntu")
