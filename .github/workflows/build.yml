@@ -7,18 +7,55 @@ on:
 
 
 jobs:
-  first-job:
+  cacher:
     runs-on: ubuntu-latest
 
     steps:
-      - run: MY_VAR="FOO"
+    - uses: actions/checkout@v1
 
-  second-job:
-    runs-on: ubuntu-latest
-    needs: first-job
+    - run: mkdir -p path/to/output
+
+    - name: Generate something
+      # Skips step if cache is valid
+      run:
+        echo hello >> path/to/output/greetings.txt
+        echo world >> path/to/output/greetings.txt
+
+    - name: Upload something
+      uses: actions/upload-artifact@v1
+      with:
+        name: something
+        path: path/to/output/greetings.txt
+
+  windows-runner:
+    runs-on: windows-latest
+    needs: cacher
 
     steps:
-      - run: echo $FOO
-      - run: echo ${{ env.FOO }}
+      - name: Download something
+        uses: actions/download-artifact@v1
+        with:
+          name: something
+
+      - name: Print it
+        shell: python
+        run: |
+          print(open("greetings.txt", "r").read())
+          print("on Windows")
 
 
+  ubuntu-runner:
+    runs-on: ubuntu-latest
+    needs: cacher
+
+    steps:
+      - name: Download something
+        uses: actions/download-artifact@v1
+        with:
+          name: something
+
+      - name: Print it
+        shell: python
+        run: |
+          print(open("greetings.txt", "r").read())
+          print("on Ubuntu")
