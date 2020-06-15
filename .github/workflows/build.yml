@@ -5,57 +5,17 @@ on:
     branches:
       - master
 
-
 jobs:
-  cacher:
+  test1:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
+      - name: "install tox"
+        run: pip3 install tox
 
-    - run: mkdir -p path/to/output
-
-    - name: Generate something
-      # Skips step if cache is valid
-      run: |
-        echo hello >> path/to/output/greetings.txt
-        echo world >> path/to/output/greetings.txt
-
-    - name: Upload something
-      uses: actions/upload-artifact@v1
-      with:
-        name: something
-        path: path/to/output/greetings.txt
-
-  windows-runner:
-    runs-on: windows-latest
-    needs: cacher
-
-    steps:
-      - name: Download greetings
-        uses: actions/download-artifact@v1
-        with:
-          name: something
-
-      - name: Print it
-        shell: python
-        run: |
-          print(open("something\greetings.txt", "r").read())
-          print("on Windows")
-
-
-  ubuntu-runner:
+  test2:
     runs-on: ubuntu-latest
-    needs: cacher
-
     steps:
-      - name: Download greetings
-        uses: actions/download-artifact@v1
-        with:
-          name: something
-
-      - name: Print it
-        shell: python
+      - name: "install tox here too"
         run: |
-          print(open("something/greetings.txt", "r").read())
-          print("on Ubuntu")
+          pip3 install -U setuptools
+          pip3 install tox
