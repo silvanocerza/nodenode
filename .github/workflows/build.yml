@@ -9,13 +9,5 @@ jobs:
   test1:
     runs-on: ubuntu-latest
     steps:
-      - name: "install tox"
-        run: pip3 install tox
-
-  test2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "install tox here too"
-        run: |
-          pip3 install -U setuptools
-          pip3 install tox
+      - name: Print things
+        run: git status
