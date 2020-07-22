@@ -36,7 +36,8 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
 
     needs: files-check
-    if: ${{ needs.files-check.outputs.result }} === false
+    # if: ${{ needs.files-check.outputs.result }} === false
+    if: false
 
     steps:
       - name: Checkout
