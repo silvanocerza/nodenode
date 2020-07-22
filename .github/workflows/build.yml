@@ -16,6 +16,10 @@ jobs:
         with:
           result-encoding: string
           script: |
+            if (context.event.push) {
+              return true
+            }
+
             const result = await github.pulls.listFiles({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
