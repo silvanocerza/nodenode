@@ -24,7 +24,7 @@ jobs:
             })
             console.log(result.data)
             const changed = result.data.filter(f => f.filename.startsWith("docs/"))
-              .filter(f => f.filename === ".github/workflows/docs.yaml").length
+              .filter(f => f.filename === ".github/workflows/docs.yaml").length > 0
             console.log("changed", changed)
             return changed
 
@@ -40,13 +40,13 @@ jobs:
 
     steps:
       - name: Checkout
-        if: needs.files-check.outputs.result == 0
+        if: needs.files-check.outputs.result == 'false'
         uses: actions/checkout@master
 
       - name: Prints system
-        if: needs.files-check.outputs.result == 0
+        if: needs.files-check.outputs.result == 'false'
         run: echo ${{ matrix.operating-system }}
 
       - name: Prints previous jobs output
-        if: needs.files-check.outputs.result == 0
+        if: needs.files-check.outputs.result == 'false'
         run: echo ${{ needs.files-check.outputs.result }}
