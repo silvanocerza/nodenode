@@ -40,13 +40,13 @@ jobs:
 
     steps:
       - name: Checkout
-        if: ${{ needs.files-check.outputs.result }}
+        if: false
         uses: actions/checkout@master
 
       - name: Prints system
-        if: ${{ needs.files-check.outputs.result }}
+        if: false
         run: echo ${{ matrix.operating-system }}
 
       - name: Prints previous jobs output
-        if: ${{ needs.files-check.outputs.result }}
+        if: false
         run: echo ${{ needs.files-check.outputs.result }}
