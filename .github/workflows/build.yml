@@ -23,8 +23,8 @@ jobs:
               per_page: 100
             })
             console.log(result.data)
-            const changed = result.data.filter(f => f.filename.startsWith("docs/"))
-              .filter(f => f.filename === ".github/workflows/docs.yaml").length > 0
+            const changed = result.data.filter(f => !f.filename.startsWith("docs/"))
+              .filter(f => f.filename !== ".github/workflows/docs.yaml").length > 0
             console.log("changed", changed)
             return changed
 
