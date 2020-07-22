@@ -1,6 +1,10 @@
 name: build
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   files-check:
@@ -16,7 +20,8 @@ jobs:
         with:
           result-encoding: string
           script: |
-            if (context.event.push) {
+            if (context.eventName === 'push') {
+              console.log("pushed to master")
               return true
             }
 
