@@ -4,10 +4,45 @@ on:
   push:
     branches:
       - master
+  pull_request:
 
 jobs:
-  test1:
+  files-check:
     runs-on: ubuntu-latest
+
+    outputs:
+      result: ${{ steps.check.outputs.result }}
+
     steps:
-      - name: Print things
-        run: git status
+      - name: Checks edited files
+        id: check
+        uses: actions/github-script@v2
+        with:
+          result-encoding: string
+          script: |
+            const result = await github.pulls.listFiles({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.number,
+              per_page: 100
+            })
+            const changed = result.data.filter(f => f.filename.startsWith("docs/"))
+              .filter(f => f.filename === ".github/workflows/docs.yaml").length > 0
+            return changed
+
+  test-matrix:
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+
+    runs-on: ${{ matrix.operating-system }}
+
+    needs: files-check
+    if: ${{ needs.files-check.outputs.result }} == "true"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Prints system
+        run: echo ${{ matrix.operating-system }}
