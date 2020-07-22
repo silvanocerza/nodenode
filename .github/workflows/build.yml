@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      result: ${{ steps.check.outputs.result }}
+      changed: ${{ steps.check.outputs.result }}
 
     steps:
       - name: Checks edited files
@@ -36,7 +36,7 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
 
     needs: files-check
-    if: needs.files-check.outputs.result == false
+    if: needs.files-check.outputs.changed == false
 
     steps:
       - name: Checkout
