@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      docs-change: ${{ steps.check.outputs.result }}
+      changed: ${{ steps.check.outputs.result }}
 
     steps:
       - name: Checks edited files
@@ -23,10 +23,10 @@ jobs:
               per_page: 100
             })
             console.log(result.data)
-            const docs-change = result.data.filter(f => !f.filename.startsWith("docs/"))
+            const changed = result.data.filter(f => !f.filename.startsWith("docs/"))
               .filter(f => f.filename !== ".github/workflows/docs.yaml").length > 0
-            console.log("docs-change", docs-change)
-            return docs-change
+            console.log("changed", docs-change)
+            return changed
 
   test-matrix:
     name: Tests ${{ matrix.operating-system }}
@@ -37,7 +37,7 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
 
     needs: files-check
-    if: needs.files-check.outputs.docs-change == 'true'
+    if: needs.files-check.outputs.changed == 'true'
 
     steps:
       - name: Checkout
@@ -47,4 +47,4 @@ jobs:
         run: echo ${{ matrix.operating-system }}
 
       - name: Prints previous jobs output
-        run: echo ${{ needs.files-check.outputs.docs-change }}
+        run: echo ${{ needs.files-check.outputs.changed }}
