@@ -36,17 +36,14 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
 
     needs: files-check
-    if: needs.files-check.outputs.changed
+    if: needs.files-check.outputs.changed == true
 
     steps:
       - name: Checkout
-        # if: needs.files-check.outputs.result == false
         uses: actions/checkout@master
 
       - name: Prints system
-        # if: needs.files-check.outputs.result == false
         run: echo ${{ matrix.operating-system }}
 
       - name: Prints previous jobs output
-        # if: needs.files-check.outputs.result == false
-        run: echo ${{ needs.files-check.outputs.result }}
+        run: echo ${{ needs.files-check.outputs.changed }}
