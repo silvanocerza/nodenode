@@ -1,10 +1,6 @@
 name: build
 
-on:
-  pull_request:
-    paths-ignore:
-      - "docs/**"
-      - ".github/workflows/docs.yaml"
+on: [pull_request]
 
 jobs:
   files-check:
@@ -41,7 +37,7 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
 
     needs: files-check
-    if: needs.files-check.outputs.changed == true
+    if: needs.files-check.outputs.changed == 'true'
 
     steps:
       - name: Checkout
