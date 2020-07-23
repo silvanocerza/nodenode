@@ -1,0 +1,17 @@
+name: Issues test
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  test-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prints data
+        run: |
+          echo ${{ github.event }}
+          echo ${{ github.event.issue }}
+          echo ${{ github.event.issue.title}}
+          echo ${{ github.event.issues }}
