@@ -11,7 +11,6 @@ jobs:
     steps:
       - name: Prints data
         run: |
-          echo ${{ github.event }}
-          echo ${{ github.event.issue }}
           echo ${{ github.event.issue.title}}
-          echo ${{ github.event.issues }}
+          echo ${{ github.event.issue.body }}
+          echo ${{ github.event.issue.html_url }}
