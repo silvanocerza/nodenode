@@ -6,25 +6,21 @@ on:
 
 jobs:
   test-issue:
-    if: github.event.action == 'opened'
+    if: >
+      github.event.action == 'opened' &&
+      github.event.action == 'labeled' &&
+      contains(github.event.issue.labels.*.name, 'foo')
     runs-on: ubuntu-latest
 
     steps:
       - name: Prints data
         run: |
+          echo ${{ github.event.action }}
           echo ${{ github.event.issue.title}}
           echo ${{ github.event.issue.body }}
           echo ${{ github.event.issue.html_url }}
 
-  labeled-issue:
-    if: >
-      github.event.action == 'labeled' &&
-      contains(github.event.issue.labels.*.name, 'foo')
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: Prints something
+      - name: Some more data
         run: |
-          echo "foo"
-          echo ${{ github.event.action }}
-          echo ${{ github.event.issue.title }}
+          echo ${{ github.event.issue.labels.*.name }}
+          echo "here we are"
