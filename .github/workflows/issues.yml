@@ -24,7 +24,7 @@ jobs:
       - name: Some more data
         if: >
           github.event.action == 'labeled' &&
-          contains(github.event.issue.labels.*.name, 'foo'
+          contains(github.event.issue.labels.*.name, 'foo')
         run: |
           echo ${{ github.event.issue.labels.*.name }}
           echo "here we are"
