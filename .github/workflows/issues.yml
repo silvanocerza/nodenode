@@ -8,6 +8,7 @@ on:
 
 jobs:
   test-issue:
+    if: github.event.issue.action == opened
     runs-on: ubuntu-latest
 
     steps:
@@ -16,3 +17,12 @@ jobs:
           echo ${{ github.event.issue.title}}
           echo ${{ github.event.issue.body }}
           echo ${{ github.event.issue.html_url }}
+
+  labeled-issue:
+    if: github.event.issue.action == labeled
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prints something
+        run: |
+          echo "foo"
+          echo ${{ github.event.issue.title }}
