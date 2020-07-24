@@ -3,8 +3,6 @@ name: Issues test
 on:
   issues:
     types: [opened, labeled]
-    label:
-      - foo
 
 jobs:
   test-issue:
@@ -19,7 +17,10 @@ jobs:
           echo ${{ github.event.issue.html_url }}
 
   labeled-issue:
-    if: github.event.action == 'labeled'
+    if: >
+      github.event.action == 'labeled' &&
+      contains(github.event.issue.label.*.name, 'foo')
+
     runs-on: ubuntu-latest
     steps:
       - name: Prints something
