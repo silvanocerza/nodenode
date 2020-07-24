@@ -9,6 +9,7 @@ jobs:
     if: >
       github.event.action == 'opened' ||
       (github.event.action == 'labeled' &&
+      github.event.action != 'opened' &&
       contains(github.event.issue.labels.*.name, 'foo'))
     runs-on: ubuntu-latest
 
@@ -21,6 +22,9 @@ jobs:
           echo ${{ github.event.issue.html_url }}
 
       - name: Some more data
+        if: >
+          github.event.action == 'labeled' &&
+          contains(github.event.issue.labels.*.name, 'foo'
         run: |
           echo ${{ github.event.issue.labels.*.name }}
           echo "here we are"
