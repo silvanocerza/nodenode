@@ -7,9 +7,9 @@ on:
 jobs:
   test-issue:
     if: >
-      github.event.action == 'opened' &&
-      github.event.action == 'labeled' &&
-      contains(github.event.issue.labels.*.name, 'foo')
+      github.event.action == 'opened' ||
+      (github.event.action == 'labeled' &&
+      contains(github.event.issue.labels.*.name, 'foo'))
     runs-on: ubuntu-latest
 
     steps:
