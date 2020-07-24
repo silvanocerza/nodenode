@@ -2,7 +2,9 @@ name: Issues test
 
 on:
   issues:
-    types: [opened]
+    types: [opened, labeled]
+    label:
+      - foo
 
 jobs:
   test-issue:
