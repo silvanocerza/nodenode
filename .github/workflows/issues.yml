@@ -49,6 +49,4 @@ jobs:
               repo: context.repo.repo,
               username: context.actor
             });
-            if (membership.status === 204) {
-              console.log("AUTHORIZED!")
-            }
+            return 1
