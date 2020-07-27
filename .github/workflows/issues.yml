@@ -45,8 +45,4 @@ jobs:
             const membership = github.orgs.getMembershipForAuthenticatedUser(
               {org: "arduino"}
             )
-            # const membership = github.orgs.checkMembership(
-            #   "arduino",
-            #   context.actor
-            # )
             console.log(membership)
