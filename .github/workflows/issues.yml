@@ -17,6 +17,18 @@ jobs:
           echo ${{ github.event.issue.body }}
           echo ${{ github.event.issue.html_url }}
 
+      - name: Label it
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['foo']
+            })
+
   test-labeled:
     if: >
       github.event.action == 'labeled' &&
@@ -30,7 +42,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const membership = github.orgs.getMembershipForAuthenticatedUser('asdf')
+            const membership = github.orgs.getMembershipForAuthenticatedUser('/asdf')
             console.log(membership)
             github.issues.addLabels({
               issue_number: context.issue.number,
