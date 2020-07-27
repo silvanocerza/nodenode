@@ -39,6 +39,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print info
+        run: |
+          echo ${{ toJson(github.event.issue) }}
+
       - name: Authorization
         id: authorization
         uses: actions/github-script@v2
