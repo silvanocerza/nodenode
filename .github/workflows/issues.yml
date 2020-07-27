@@ -6,11 +6,7 @@ on:
 
 jobs:
   test-issue:
-    if: >
-      github.event.action == 'opened' ||
-      (github.event.action == 'labeled' &&
-      github.event.action != 'opened' &&
-      contains(github.event.issue.labels.*.name, 'foo'))
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +17,24 @@ jobs:
           echo ${{ github.event.issue.body }}
           echo ${{ github.event.issue.html_url }}
 
-      - name: Some more data
-        if: >
-          github.event.action == 'labeled' &&
-          contains(github.event.issue.labels.*.name, 'foo')
-        run: |
-          echo ${{ github.event.issue.labels.*.name }}
-          echo "here we are"
+  test-labeled:
+    if: >
+      github.event.action == 'labeled' &&
+      contains(github.event.issue.labels.*.name, 'foo')
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set label on Github issue
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const membership = github.orgs.getMembershipForAuthenticatedUser('asdf')
+            console.log(membership)
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['foo']
+            })
