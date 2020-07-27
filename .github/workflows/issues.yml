@@ -44,9 +44,3 @@ jobs:
           script: |
             const membership = github.orgs.getMembershipForAuthenticatedUser('arduino')
             console.log(membership)
-            github.issues.addLabels({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['foo']
-            })
