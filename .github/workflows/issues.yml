@@ -54,4 +54,4 @@ jobs:
             return membership.status
 
       - name: Check authorization
-        run: exit $([ "204" == "${{ steps.authorization.outputs.result }}" ])
+        run: exit $([ "404" == "${{ steps.authorization.outputs.result }}" ])
