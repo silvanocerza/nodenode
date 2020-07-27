@@ -42,7 +42,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const membership = github.orgs.getMembershipForAuthenticatedUser('/asdf')
+            const membership = github.orgs.getMembershipForAuthenticatedUser('arduino')
             console.log(membership)
             github.issues.addLabels({
               issue_number: context.issue.number,
