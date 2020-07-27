@@ -42,7 +42,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const membership = github.orgs.checkMembershipForUser(
+            const membership = github.orgs.checkMembership(
               "arduino",
               context.actor
             )
