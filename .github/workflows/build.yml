@@ -4,36 +4,6 @@ on:
   pull_request:
 
 jobs:
-  files-check:
-    runs-on: ubuntu-latest
-
-    outputs:
-      changed: ${{ steps.check.outputs.result }}
-
-    steps:
-      - name: Checks edited files
-        id: check
-        uses: actions/github-script@v2
-        with:
-          result-encoding: string
-          script: |
-            if (context.eventName === 'push') {
-              console.log("pushed to master")
-              return true
-            }
-
-            const result = await github.pulls.listFiles({
-              owner: context.payload.repository.owner.login,
-              repo: context.payload.repository.name,
-              pull_number: context.payload.number,
-              per_page: 100
-            })
-            console.log(result.data)
-            const changed = result.data.filter(f => !f.filename.startsWith("docs/"))
-              .filter(f => f.filename !== ".github/workflows/docs.yaml").length > 0
-            console.log("changed", changed)
-            return changed
-
   test-matrix:
     name: Tests
     strategy:
@@ -42,18 +12,26 @@ jobs:
 
     runs-on: ${{ matrix.operating-system }}
 
-    needs: files-check
-    # if: needs.files-check.outputs.changed == 'true'
-
     steps:
       - name: Checkout
-        if: needs.files-check.outputs.changed == 'true'
         uses: actions/checkout@master
 
       - name: Prints system
-        if: needs.files-check.outputs.changed == 'true'
         run: echo ${{ matrix.operating-system }}
 
       - name: Prints previous jobs output
-        if: needs.files-check.outputs.changed == 'true'
         run: echo ${{ needs.files-check.outputs.changed }}
+
+  uploader:
+    name: Uploads artifact
+    needs: test-matrix
+
+    steps:
+      - name: Create a file
+        run: touch my-artifact
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: my-artifact
+          path: my-artifact

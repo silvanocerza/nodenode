@@ -45,18 +45,3 @@ jobs:
       - name: Print info
         run: |
           echo "${{ toJson(github) }}"
-      # - name: Authorization
-      #   id: authorization
-      #   uses: actions/github-script@v2
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     result-encoding: string
-      #     script: |
-      #       const membership = await github.repos.checkCollaborator({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         username: context.actor
-      #       });
-      #       return membership.status
-      # - name: Check authorization
-      #   run: exit $([ "204" == "${{ steps.authorization.outputs.result }}" ])
