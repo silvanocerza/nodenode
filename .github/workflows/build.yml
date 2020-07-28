@@ -19,9 +19,6 @@ jobs:
       - name: Prints system
         run: echo ${{ matrix.operating-system }}
 
-      - name: Prints previous jobs output
-        run: echo ${{ needs.files-check.outputs.changed }}
-
   uploader:
     name: Uploads artifact
     runs-on: ubuntu-latest
