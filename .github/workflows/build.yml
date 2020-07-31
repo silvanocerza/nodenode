@@ -4,33 +4,18 @@ on:
   pull_request:
 
 jobs:
-  test-matrix:
+  test:
     name: Tests
-    strategy:
-      matrix:
-        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
-
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Prints system
-        run: echo ${{ matrix.operating-system }}
-
-  uploader:
-    name: Uploads artifact
-    runs-on: ubuntu-latest
-
-    needs: test-matrix
-
-    steps:
-      - name: Create a file
-        run: touch my-artifact
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: my-artifact
-          path: my-artifact
+      - name: Prints things
+        run: |
+          echo "${{ github.workflow }}"
+          echo "${{ github.event_name}}"
+          echo "${{ github.event.pull_request.number }}"
+          echo "${{ github.event.number }}"
+          echo "${{ github.sha }}"
