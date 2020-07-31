@@ -12,10 +12,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Prints things
+      - name: Create some files
         run: |
-          echo "${{ github.workflow }}"
-          echo "${{ github.event_name}}"
-          echo "${{ github.event.pull_request.number }}"
-          echo "${{ github.event.number }}"
-          echo "${{ github.sha }}"
+          mkdir dist
+          touch dist/foo.tar.gz
+          touch dist/bar.tar.gz
+          touch dist/foo.zip
+          touch dist/foo-checksums.txt
+
+      - name: SHOW ME!
+        run: ls dist
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*checksums.txt
