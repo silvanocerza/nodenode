@@ -30,7 +30,7 @@ jobs:
     name: Tests
 
     needs: docs-are-modified
-    if: needs.docs-are-modified.output.docs-check == 'true'
+    if: needs.docs-are-modified.outputs.docs-check == 'true'
 
     strategy:
       matrix:
@@ -46,7 +46,7 @@ jobs:
         run: echo ${{ matrix.operating-system }}
 
       - name: Prints previous jobs output
-        run: echo ${{ needs.docs-are-modified.output.docs-check }}
+        run: echo ${{ needs.docs-are-modified.outputs.docs-check }}
 
   required-job:
     name: required
