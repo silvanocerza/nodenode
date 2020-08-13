@@ -16,6 +16,7 @@ jobs:
         run: |
           # Not a PR
           if [[ -z "${{ github.event.pull_request }}" ]]; then
+            echo "Not a PR, skipping"
             echo "::set-output name=docs-modified::false"
             exit 0
           fi
@@ -23,6 +24,7 @@ jobs:
           FILES=$(curl --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' ${{ github.event.pull_request.url }}/files | \
           jq -c '.[] | select(.filename | match("^docs\/.*")) | .filename')
           [[ -z "$FILES" ]] && echo "::set-output name=docs-modified::false" || echo "::set-output name=docs-modified::true"
+          echo "Reached"
 
   test-matrix:
     name: Tests
