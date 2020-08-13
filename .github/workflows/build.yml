@@ -20,8 +20,7 @@ jobs:
             exit 0
           fi
 
-          FILES=$(jq -r '.issue.pull_request.url | . += "/files"' "$GITHUB_EVENT_PATH" | \
-          xargs curl --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' --url | \
+          FILES=$(curl --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
           jq -c '.[] | select(.filename | match("^docs\/.*")) | .filename')
           [[ -z "$FILES" ]] && echo "::set-output name=docs-modified::false" || echo "::set-output name=docs-modified::true"
 
