@@ -28,7 +28,7 @@ jobs:
     name: Tests
 
     needs: docs-are-modified
-    if: needs.docs-are-modified.output.docs-check
+    if: needs.docs-are-modified.output.docs-check == 'true'
 
     strategy:
       matrix:
