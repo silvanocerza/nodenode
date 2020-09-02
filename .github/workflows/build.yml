@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Dir current
-        run: dir /s
+        run: dir
 
       - name: Dir C:\
-        run: cd C:\ && dir /s
+        run: cd C:\ && dir
