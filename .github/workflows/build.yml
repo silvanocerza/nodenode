@@ -1,58 +1,16 @@
 name: build
 
 on:
-  pull_request:
+  push
 
 jobs:
-  docs-are-modified:
-    name: Check if docs are modified
-    runs-on: ubuntu-latest
-    outputs:
-      docs-check: ${{ steps.check.outputs.docs-modified }}
+  does-things:
+    name: Does things
+    runs-on: windows-latest
 
     steps:
-      - name: Check if docs are modified
-        id: check
-        run: |
-          # Not a PR
-          if [[ -z "${{ github.event.pull_request }}" ]]; then
-            echo "Not a PR, skipping"
-            echo "::set-output name=docs-modified::false"
-            exit 0
-          fi
+      - name: Dir current
+        run: dir /s
 
-          FILES=$(curl --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' ${{ github.event.pull_request.url }}/files | \
-          jq -c '.[] | select(.filename | match("^docs\/.*")) | .filename')
-          [[ -z "$FILES" ]] && echo "::set-output name=docs-modified::false" || echo "::set-output name=docs-modified::true"
-          echo "Reached"
-
-  test-matrix:
-    name: Tests
-
-    needs: docs-are-modified
-    if: needs.docs-are-modified.outputs.docs-check == 'true'
-
-    strategy:
-      matrix:
-        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
-
-    runs-on: ${{ matrix.operating-system }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Prints system
-        run: echo ${{ matrix.operating-system }}
-
-      - name: Prints previous jobs output
-        run: echo ${{ needs.docs-are-modified.outputs.docs-check }}
-
-  required-job:
-    name: required
-    needs: test-matrix
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Finishes
-        run: echo Done
+      - name: Dir C:\
+        run: cd C:\ && dir /s
