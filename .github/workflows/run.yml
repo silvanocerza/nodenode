@@ -19,8 +19,10 @@ jobs:
         id: get-files
         run: |
           # See: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-          echo "FILES=$(ls ${{ github.workspace }} | xargs)" >> "$GITHUB_ENV"
+          echo "FILES=$(ls ${{ github.workspace }} | xargs)" >> $GITHUB_ENV
+          FILES=$(ls ${{ github.workspace }} | xargs)
           ls ${{ github.workspace }}
+          echo $FILES
           echo ${{ env.FILES }}
 
           JSON=$(echo "[${{ join(env.FILES, ',') }}]" | jq -c '[{"file": .[]}]')
