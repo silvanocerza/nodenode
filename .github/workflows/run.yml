@@ -16,7 +16,7 @@ jobs:
         id: get-files
         run: |
           FILES=$(ls ${{ github.workspace }} | xarg)
-          JSON=$(echo "[${{ join(${{ env.FILES }}, \",\") }}]" | jq -c '[{"file": .[]}]')
+          JSON=$(echo "[${{ join(env.FILES, ',') }}]" | jq -c '[{"file": .[]}]')
 
           echo "::set-output name=files::{\"include\": $JSON }"
 
