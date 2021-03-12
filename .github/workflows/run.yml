@@ -18,7 +18,7 @@ jobs:
       - name: Set env var
         run: |
           # See: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-          echo "FILES=\"$(ls -m ${{ github.workspace }}| sed 's/, /","/')\"" >> $GITHUB_ENV
+          echo "FILES=\"\\"$(ls -m ${{ github.workspace }}| sed 's/, /\\",\\"/')\\"\"" >> $GITHUB_ENV
 
       - name: Get files list
         id: get-files
