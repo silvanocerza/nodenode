@@ -12,13 +12,14 @@ jobs:
     outputs:
       files: ${{ steps.get-files.outputs.files }}
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
       - name: Get files list
         id: get-files
         run: |
           # See: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
           echo "FILES=$(ls ${{ github.workspace }} | xargs)" >> "$GITHUB_ENV"
-          echo $FILES
-          echo ${{ env.FILES }}
 
           JSON=$(echo "[${{ join(env.FILES, ',') }}]" | jq -c '[{"file": .[]}]')
 
