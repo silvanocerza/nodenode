@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set env var
-        run: echo "FILES=$(ls ${{ github.workspace }} | xargs)" >> $GITHUB_ENV
+        run: echo "FILES=$(ls -m ${{ github.workspace }} | xargs)" >> $GITHUB_ENV
 
       - name: Get files list
         id: get-files
@@ -26,9 +26,8 @@ jobs:
           # FILES=$(ls ${{ github.workspace }} | xargs)
           # ls ${{ github.workspace }}
           # echo $FILES
-          echo ${{ env.FILES }}
 
-          JSON=$(echo "[${{ join(env.FILES, ",") }}]" | jq -c '[{"file": .[]}]')
+          JSON=$(echo "[${{ join(env.FILES) }}]" | jq -c '[{"file": .[]}]')
 
           echo "::set-output name=files::{\"include\": $JSON }"
 
