@@ -16,16 +16,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set env var
-        run: echo "FILES=$(ls -m ${{ github.workspace }} | xargs)" >> $GITHUB_ENV
+        run: |
+          # See: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
+          echo "FILES=\"\\"$(ls -m ${{ github.workspace }}| sed 's/, /","/')\\"\" >> $GITHUB_ENV
 
       - name: Get files list
         id: get-files
         run: |
-          # See: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-          # echo "FILES=$(ls ${{ github.workspace }} | xargs)" >> $GITHUB_ENV
-          # FILES=$(ls ${{ github.workspace }} | xargs)
-          # ls ${{ github.workspace }}
-          # echo $FILES
 
           JSON=$(echo "[${{ join(env.FILES) }}]" | jq -c '[{"file": .[]}]')
 
