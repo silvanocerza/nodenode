@@ -28,7 +28,7 @@ jobs:
           # echo $FILES
           echo ${{ env.FILES }}
 
-          JSON=$(echo "[${{ join(env.FILES, ',') }}]" | jq -c '[{"file": .[]}]')
+          JSON=$(echo "[${{ join(env.FILES, \",\") }}]" | jq -c '[{"file": .[]}]')
 
           echo "::set-output name=files::{\"include\": $JSON }"
 
