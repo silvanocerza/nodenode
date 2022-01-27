@@ -32,7 +32,7 @@ jobs:
 
           echo "THIS IS THE AMAZING CHANGELOG" >> "${{ github.workspace }}/${{ env.CHANGELOG_ARTIFACTS }}//$CHANGELOG_FILE_NAME"
 
-          ls "${{ github.workspace }}/${{ env.CHANGELOG_ARTIFACTS }}
+          ls "${{ github.workspace }}/${{ env.CHANGELOG_ARTIFACTS }}"
           # Compose changelog
           # yarn run compose-changelog "${{ github.workspace }}/${{ env.CHANGELOG_ARTIFACTS }}/$CHANGELOG_FILE_NAME"
 
