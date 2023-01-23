@@ -5,32 +5,32 @@ on:
   # This could be used to run an immediate check after updating certificate secrets.
   # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 jobs:
   job1:
     runs-on: ubuntu-latest
-    outputs:
-      files: ${{ steps.get-files.outputs.files }}
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
-      - name: Set env var
+      - name: Get changed files
+        id: files
+        uses: tj-actions/changed-files@v34
+
+      - name: List all changed files
         run: |
-          # See: https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-          echo "FILES=\"$(ls ${{ github.workspace }}/* | xargs | sed 's/ /","/g')\"" >> $GITHUB_ENV
-
-      - name: Get files list
-        id: get-files
-        run: |
-          JSON=$(echo '[${{ join(env.FILES) }}]' | jq -c '{"file": .}')
-          echo "::set-output name=files::$JSON"
-
-  job2:
-    needs: job1
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJSON(needs.job1.outputs.files)}}
-    steps:
-      - run: |
-          echo ${{ matrix.file }}
+          echo "This is ${{ github.event_name == 'pull_request' && 'a PR' || 'master' }}"
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
