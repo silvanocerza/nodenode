@@ -21,7 +21,8 @@ jobs:
     steps:
       - name: Testing
         run: |
-          echo "::setFailed 'Shit's broken yo'"
+          echo "::error 'Shit's broken yo'"; exit 1
+          echo "This won't show"
 
       - name: Will never run
         run: echo "You'll never see this message"
