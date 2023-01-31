@@ -22,4 +22,6 @@ jobs:
         if: always()
         uses: act10ns/slack@v1
         with:
+          status: ${{ job.status }}
+          channel: "#general"
           config: .github/config/slack.yml
