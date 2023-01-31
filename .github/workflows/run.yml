@@ -5,24 +5,20 @@ on:
   # This could be used to run an immediate check after updating certificate secrets.
   # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
-  push:
-    branches:
-      - master
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
+  tags:
+    - "v[0-9].[0-9]+.[0-9]+*"
 
 jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Testing
-        run: |
-          echo "::error 'Shit's broken yo'"; exit 1
-          echo "This won't show"
+      - name: Do stuff
+        run: echo "FOO"
 
-      - name: Will never run
-        run: echo "You'll never see this message"
+      - name: Notify Slack of something
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
+        uses: act10ns/slack@v1
+        with:
+          config: .github/config/slack.yml

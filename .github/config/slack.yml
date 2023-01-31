@@ -1,0 +1,19 @@
+pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{ref}} `{{diffRef}}`
+title: "{{icon jobStatus}} {{repositoryName}} {{ref}} release"
+title_link: "{{refUrl}}"
+
+text: |
+  {{icon jobStatus}}
+  {{#ifeq jobStatus "success" }}
+  {{repositoryName}} {{ref}} has been released :rocket:
+  {{#else ifeq jobStatus "failure"}}
+  {{repositoryName}} {{ref}} release failed!
+  {{#else ifeq jobStatus "cancelled"}}
+  {{repositoryName}} {{ref}} release has been cancelled!
+  {{/if}}
+
+fallback: |-
+  [GitHub] {{repositoryName}} {{ref}} release is {{jobStatus}}
+
+footer: >-
+  <{{repositoryUrl}}|{{repositoryName}}> {{workflow}} #{{runNumber}}
