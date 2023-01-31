@@ -1,59 +1,19 @@
-username: GitHub-CI
-icon_url: https://octodex.github.com/images/mona-the-rivetertocat.png
-
 pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{ref}} `{{diffRef}}`
-title: GitHub Actions
-title_link: https://support.github.com
+title: "{{icon jobStatus}} {{repositoryName}} {{ref}} release"
+title_link: "{{refUrl}}"
 
 text: |
-  *<{{workflowRunUrl}}|Workflow _{{workflow}}_ job _{{jobName}}_ triggered by _{{eventName}}_ is _{{jobStatus}}_>* for <{{refUrl}}|`{{ref}}`>
-  {{#if description}}<{{diffUrl}}|`{{diffRef}}`> - {{description}}{{/if}}
-  {{#if payload.commits}}
-  *Commits*
-  {{#each payload.commits}}
-  <{{this.url}}|`{{truncate this.id 8}}`> - {{this.message}}
-  {{/each}}
+  {{icon jobStatus}}
+  {{#ifeq jobStatus "success" }}
+  {{repositoryName}} {{ref}} has been released :rocket:
+  {{#else ifeq jobStatus "failure"}}
+  {{repositoryName}} {{ref}} release failed!
+  {{#else ifeq jobStatus "cancelled"}}
+  {{repositoryName}} {{ref}} release has been cancelled!
   {{/if}}
 
 fallback: |-
-  [GitHub] {{workflow}} #{{runNumber}} {{jobName}} is {{jobStatus}}
-
-fields:
-  - title: Job Steps
-    value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}"
-    short: false
-  - title: Workflow
-    value: "<{{workflowUrl}}|{{workflow}}>"
-    short: true
-  - title: Git Ref
-    value: "{{ref}} ({{refType}})"
-    short: true
-  - title: Run ID
-    value: |-
-      <{{workflowRunUrl}}|{{runId}}>
-    short: true
-  - title: Run Number
-    value: "{{runNumber}}"
-    short: true
-  - title: Actor
-    value: "{{actor}}"
-    short: true
-  - title: Job Status
-    value: "{{jobStatus}}"
-    short: true
+  [GitHub] {{repositoryName}} {{ref}} release is {{jobStatus}}
 
 footer: >-
   <{{repositoryUrl}}|{{repositoryName}}> {{workflow}} #{{runNumber}}
-
-colors:
-  success: "#5DADE2"
-  failure: "#884EA0"
-  cancelled: "#A569BD"
-  default: "#7D3C98"
-
-icons:
-  success: ":white_check_mark:"
-  failure: ":grimacing:"
-  cancelled: ":x:"
-  skipped: ":heavy_minus_sign:"
-  default: ":interrobang:"
