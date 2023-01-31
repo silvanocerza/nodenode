@@ -5,8 +5,9 @@ on:
   # This could be used to run an immediate check after updating certificate secrets.
   # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
-  tags:
-    - "v[0-9].[0-9]+.[0-9]+*"
+  push:
+    tags:
+      - "v[0-9].[0-9]+.[0-9]+*"
 
 jobs:
   job1:
