@@ -1,14 +1,14 @@
 pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{ref}} `{{diffRef}}`
-title: "{{icon jobStatus}} {{repositoryName}} {{ref}} release"
+title: "Project {{ref}} release"
 title_link: "{{refUrl}}"
 
 text: |
   {{icon jobStatus}}
-  {{#if (eq jobStatus "success")}}
+  {{#if (eq jobStatus "SUCCESS")}}
     {{repositoryName}} {{ref}} has been released :rocket:
-  {{else if (eq jobStatus "failure")}}
+  {{else if (eq jobStatus "FAILURE")}}
     {{repositoryName}} {{ref}} release failed!
-  {{else if (eq jobStatus "cancelled")}}
+  {{else if (eq jobStatus "CANCELLED")}}
     {{repositoryName}} {{ref}} release has been cancelled!
   {{/if}}
 
@@ -17,3 +17,10 @@ fallback: |-
 
 footer: >-
   <{{repositoryUrl}}|{{repositoryName}}> {{workflow}} #{{runNumber}}
+
+icons:
+  success: ":white_check_mark:"
+  failure: ":x:"
+  cancelled: ":interrobang:"
+  skipped: ":interrobang:"
+  default: ":interrobang:"
