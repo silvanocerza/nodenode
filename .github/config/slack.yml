@@ -5,11 +5,11 @@ text: |
   <{{repositoryUrl}}/releases/{{env.VERSION}}|{{env.VERSION}} status>
 
   {{#if (eq jobStatus "SUCCESS")}}
-    {{icon jobStatus}} Project {{env.VERSION}} has been released :rocket:
+    Project {{env.VERSION}} has been released :rocket:
   {{else if (eq jobStatus "FAILURE")}}
-    {{icon jobStatus}} Project {{env.VERSION}} release failed!
+    {{icon jobStatus}} Project {{env.VERSION}} release failed! {{icon jobStatus}}
   {{else if (eq jobStatus "CANCELLED")}}
-    {{icon jobStatus}} Project {{env.VERSION}} release has been cancelled!
+    {{icon jobStatus}} Project {{env.VERSION}} release has been cancelled! {{icon jobStatus}}
   {{/if}}
 
 fallback: |-
