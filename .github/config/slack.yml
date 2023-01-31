@@ -1,8 +1,8 @@
 pretext: Triggered via {{eventName}} of {{env.VERSION}} by {{actor}}
 title: "Project release"
 
-text: >
-  <{{repositoryUrl}}/releases/{{env.VERSION}}|Version {{env.VERSION}} status>
+text: |
+  <{{repositoryUrl}}/releases/{{env.VERSION}}|{{env.VERSION}} status>
 
   {{#if (eq jobStatus "SUCCESS")}}
     {{icon jobStatus}} Project {{env.VERSION}} has been released :rocket:
