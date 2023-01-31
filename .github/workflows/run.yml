@@ -1,10 +1,6 @@
 name: Do things
 
 on:
-  # workflow_dispatch event allows the workflow to be triggered manually.
-  # This could be used to run an immediate check after updating certificate secrets.
-  # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
-  workflow_dispatch:
   push:
     tags:
       - "v[0-9].[0-9]+.[0-9]+*"
@@ -22,6 +18,7 @@ jobs:
       - name: Notify Slack of something
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          # VERSION:
         if: always()
         uses: act10ns/slack@v2
         with:

@@ -1,22 +1,28 @@
-pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{ref}} `{{diffRef}}`
-title: "Project {{ref}} release"
-title_link: "{{refUrl}}"
+pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{action_ref}}
+title: "Project {{action_ref}} release"
+title_link: "{{repositoryUrl}}/{{action_ref}}"
 
-text: |
+text: >
   {{icon jobStatus}}
   {{#if (eq jobStatus "SUCCESS")}}
-    {{repositoryName}} {{ref}} has been released :rocket:
+    Project {{action_ref}} has been released :rocket:
   {{else if (eq jobStatus "FAILURE")}}
-    {{repositoryName}} {{ref}} release failed!
+    Project {{action_ref}} release failed!
   {{else if (eq jobStatus "CANCELLED")}}
-    {{repositoryName}} {{ref}} release has been cancelled!
+    Project {{action_ref}} release has been cancelled!
   {{/if}}
 
 fallback: |-
-  [GitHub] {{repositoryName}} {{ref}} release is {{jobStatus}}
+  [GitHub] {{repositoryName}} {{action_ref}} release is {{jobStatus}}
 
 footer: >-
-  <{{repositoryUrl}}|{{repositoryName}}> {{workflow}} #{{runNumber}}
+  <{{repositoryUrl}}|{{repositoryName}}> <{{workflowRunUrl}}|{{workflow}} #{{runNumber}}>
+
+colors:
+  success: "#5DADE2"
+  failure: "#884EA0"
+  cancelled: "#A569BD"
+  default: "#7D3C98"
 
 icons:
   success: ":white_check_mark:"
