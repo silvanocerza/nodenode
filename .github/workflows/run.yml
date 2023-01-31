@@ -18,7 +18,7 @@ jobs:
       - name: Notify Slack of something
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          # VERSION:
+          VERSION: ${{ github.action_ref }}
         if: always()
         uses: act10ns/slack@v2
         with:

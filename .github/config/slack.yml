@@ -1,19 +1,19 @@
-pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{actionRef}}
-title: "Project {{actionRef}} release"
-title_link: "{{repositoryUrl}}/{{actionRef}}"
+pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{env.VERSION}}
+title: "Project {{env.VERSION}} release"
+title_link: "{{repositoryUrl}}/{{env.VERSION}}"
 
 text: >
   {{icon jobStatus}}
   {{#if (eq jobStatus "SUCCESS")}}
-    Project {{actionRef}} has been released :rocket:
+    Project {{env.VERSION}} has been released :rocket:
   {{else if (eq jobStatus "FAILURE")}}
-    Project {{actionRef}} release failed!
+    Project {{env.VERSION}} release failed!
   {{else if (eq jobStatus "CANCELLED")}}
-    Project {{actionRef}} release has been cancelled!
+    Project {{env.VERSION}} release has been cancelled!
   {{/if}}
 
 fallback: |-
-  [GitHub] {{repositoryName}} {{actionRef}} release is {{jobStatus}}
+  [GitHub] {{repositoryName}} {{env.VERSION}} release is {{jobStatus}}
 
 footer: >-
   <{{repositoryUrl}}|{{repositoryName}}> <{{workflowRunUrl}}|{{workflow}} #{{runNumber}}>
