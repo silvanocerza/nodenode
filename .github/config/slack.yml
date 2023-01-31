@@ -6,11 +6,11 @@ text: |
   {{icon jobStatus}}
   {{#ifeq jobStatus "success" }}
     {{repositoryName}} {{ref}} has been released :rocket:
-  {{else ifeq jobStatus "failure"}}
+  {{else}} {{#ifeq jobStatus "failure"}}
     {{repositoryName}} {{ref}} release failed!
-  {{else ifeq jobStatus "cancelled"}}
+  {{else}} {{#ifeq jobStatus "cancelled"}}
     {{repositoryName}} {{ref}} release has been cancelled!
-  {{/if}}
+  {{/if}}{{/if}}{{/if}}
 
 fallback: |-
   [GitHub] {{repositoryName}} {{ref}} release is {{jobStatus}}
