@@ -1,0 +1,14 @@
+name: Required stuff
+
+on:
+  issue_comment:
+    type: created
+
+jobs:
+  pr_commented:
+    # This job only runs for pull request comments
+    name: PR comment
+    if: ${{ github.event.issue.pull_request }} && contains(${{ github.event.comment.body }}, "merge this pls")
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr merge "${{ github.event.issue.number }}"
