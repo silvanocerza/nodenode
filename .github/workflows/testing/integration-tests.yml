@@ -1,4 +1,4 @@
-name: Required stuff
+name: Integration tests
 
 on: push
 
