@@ -1,0 +1,11 @@
+name: Required stuff
+
+on: push
+
+jobs:
+  integration-tests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fake running tests
+        run: echo "Am running tests yo!"
