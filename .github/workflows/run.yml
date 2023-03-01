@@ -13,15 +13,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Do stuff
-        run: exit 1
-
-      - name: Notify Slack of something
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          VERSION: ${{ github.ref_name }}
-        if: always()
-        uses: act10ns/slack@v2
-        with:
-          status: ${{ job.status }}
-          channel: "#general"
-          config: .github/config/slack.yml
+        run: echo "${{ vars.GITHUB_WORKSPACE }}"
