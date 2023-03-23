@@ -25,10 +25,12 @@ jobs:
         id: files
         uses: tj-actions/changed-files@v34
         with:
+          json: true
           files: |
             **/*.txt
 
   existing:
+    needs: pushed
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,6 +46,7 @@ jobs:
           cat ${{ matrix.file }}
 
   deleted:
+    needs: pushed
     runs-on: ubuntu-latest
     strategy:
       matrix:
