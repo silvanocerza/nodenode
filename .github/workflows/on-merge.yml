@@ -11,8 +11,8 @@ jobs:
   pushed:
     runs-on: ubuntu-latest
     outputs:
-      existing-docs: ${{ fromJSON(steps.files.outputs.all_changed_and_modified_files) }}
-      deleted-docs: ${{ fromJSON(steps.files.outputs.all_changed_files) }}
+      existing-docs: ${{ steps.files.outputs.all_changed_and_modified_files }}
+      deleted-docs: ${{ steps.files.outputs.all_changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: ${{ needs.pushed.outputs.existing-docs }}
+        file: ${{ fromJSON(needs.pushed.outputs.existing-docs) }}
 
     steps:
       - name: Checkout
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: ${{ needs.pushed.outputs.deleted-docs }}
+        file: ${{ fromJSON(needs.pushed.outputs.deleted-docs) }}
 
     steps:
       - name: Checkout
