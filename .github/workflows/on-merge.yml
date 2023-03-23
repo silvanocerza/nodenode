@@ -10,7 +10,7 @@ on:
 jobs:
   pushed:
     runs-on: ubuntu-latest
-    outpus:
+    outputs:
       existing-docs: ${{ steps.files.outputs.all_changed_and_modified_files }}
       deleted-docs: ${{ steps.files.outputs.all_changed_files }}
     steps:
