@@ -3,7 +3,7 @@ name: Do something after merge
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - "**.txt"
 
