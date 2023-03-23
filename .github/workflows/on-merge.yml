@@ -29,6 +29,11 @@ jobs:
           files: |
             **/*.txt
 
+      - name: Print shit
+        run: |
+          echo "${{ steps.files.outputs.all_changed_and_modified_files }}"
+          echo "${{ steps.files.outputs.all_changed_files }}"
+
   existing:
     needs: pushed
     runs-on: ubuntu-latest
