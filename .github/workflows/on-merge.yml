@@ -2,7 +2,8 @@ name: Do something after merge
 
 on:
   push:
-    - master
+    branches:
+      - main
 
 jobs:
   pushed:
