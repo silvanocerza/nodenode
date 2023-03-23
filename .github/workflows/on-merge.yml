@@ -11,8 +11,8 @@ jobs:
   pushed:
     runs-on: ubuntu-latest
     outputs:
-      existing-docs: ${{ steps.files.outputs.all_changed_and_modified_files }}
-      deleted-docs: ${{ steps.files.outputs.all_changed_files }}
+      existing-docs: ${{ fromJSON(steps.files.outputs.all_changed_and_modified_files) }}
+      deleted-docs: ${{ fromJSON(steps.files.outputs.all_changed_files) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
