@@ -11,8 +11,8 @@ jobs:
   pushed:
     runs-on: ubuntu-latest
     outputs:
-      modified_matrix: ${{ steps.sync.output.modified_matrix }}
-      deleted_matrix: ${{ steps.sync.output.deleted_matrix }}
+      modified_matrix: ${{ steps.create_matrix.outputs.modified_matrix }}
+      deleted_matrix: ${{ steps.create_matrix.outputs.deleted_matrix }}
       any_modified: ${{ steps.files.outputs.any_modified }}
       any_deleted: ${{ steps.files.outputs.any_deleted }}
 
@@ -33,11 +33,10 @@ jobs:
             **/*.txt
 
       - name: Create matrixes
+        id: create_matrix
         run: |
           echo "modified_matrix={\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}" >> $GITHUB_OUTPUT
           echo "deleted_matrix={\"file\": ${{ steps.files.outputs.deleted_files }}}" >> $GITHUB_OUTPUT
-          echo "${{ fromJSON({\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}) }}"
-          echo "${{ fromJSON({\"file\": ${{ steps.files.outputs.deleted_files }}}) }}"
 
   modified:
     needs: pushed
