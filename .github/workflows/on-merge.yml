@@ -13,7 +13,7 @@ jobs:
     outputs:
       modified_matrix: ${{ steps.create_matrix.outputs.modified_matrix }}
       deleted_matrix: ${{ steps.create_matrix.outputs.deleted_matrix }}
-      any_modified: ${{ steps.files.outputs.any_modified }}
+      any_changed: ${{ steps.files.outputs.any_changed }}
       any_deleted: ${{ steps.files.outputs.any_deleted }}
 
     steps:
@@ -29,18 +29,19 @@ jobs:
         uses: tj-actions/changed-files@v34
         with:
           json: true
+          include_all_old_new_renamed_files: true
           files: |
             **/*.txt
 
       - name: Create matrixes
         id: create_matrix
         run: |
-          echo "modified_matrix={\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}" >> $GITHUB_OUTPUT
+          echo "modified_matrix={\"file\": ${{ steps.files.outputs.all_changed_files }}}" >> $GITHUB_OUTPUT
           echo "deleted_matrix={\"file\": ${{ steps.files.outputs.deleted_files }}}" >> $GITHUB_OUTPUT
 
   modified:
     needs: pushed
-    if: needs.pushed.outputs.any_modified
+    if: needs.pushed.outputs.any_changed
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.pushed.outputs.modified_matrix) }}
