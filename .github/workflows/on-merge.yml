@@ -36,6 +36,8 @@ jobs:
         run: |
           echo "modified_matrix={\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}" >> $GITHUB_OUTPUT
           echo "deleted_matrix={\"file\": ${{ steps.files.outputs.deleted_files }}}" >> $GITHUB_OUTPUT
+          echo "${{ fromJSON({\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}) }}"
+          echo "${{ fromJSON({\"file\": ${{ steps.files.outputs.deleted_files }}}) }}"
 
   modified:
     needs: pushed
