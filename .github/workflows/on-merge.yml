@@ -11,8 +11,8 @@ jobs:
   pushed:
     runs-on: ubuntu-latest
     outputs:
-      modified-matrix: ${{ steps.sync.output.modified-matrix }}
-      deleted-matrix: ${{ steps.sync.output.deleted-matrix }}
+      modified_matrix: ${{ steps.sync.output.modified_matrix }}
+      deleted_matrix: ${{ steps.sync.output.deleted_matrix }}
       any_modified: ${{ steps.files.outputs.any_modified }}
       any_deleted: ${{ steps.files.outputs.any_deleted }}
 
@@ -34,15 +34,15 @@ jobs:
 
       - name: Create matrixes
         run: |
-          echo "modified-matrix={\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}" >> $GITHUB_OUTPUT
-          echo "deleted-matrix={\"file\": ${{ steps.files.outputs.deleted_files }}}" >> $GITHUB_OUTPUT
+          echo "modified_matrix={\"file\": ${{ steps.files.outputs.all_changed_and_modified_files }}}" >> $GITHUB_OUTPUT
+          echo "deleted_matrix={\"file\": ${{ steps.files.outputs.deleted_files }}}" >> $GITHUB_OUTPUT
 
   modified:
     needs: pushed
-    if: needs.pushed.outputs.any-modified
+    if: needs.pushed.outputs.any_modified
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.pushed.outputs.modified-matrix) }}
+      matrix: ${{ fromJSON(needs.pushed.outputs.modified_matrix) }}
 
     steps:
       - name: Checkout
@@ -55,10 +55,10 @@ jobs:
 
   deleted:
     needs: pushed
-    if: needs.pushed.outputs.any-deleted
+    if: needs.pushed.outputs.any_deleted
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.pushed.outputs.deleted-matrix) }}
+      matrix: ${{ fromJSON(needs.pushed.outputs.deleted_matrix) }}
 
     steps:
       - name: Print file
