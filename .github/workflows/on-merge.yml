@@ -11,8 +11,11 @@ jobs:
   pushed:
     runs-on: ubuntu-latest
     outputs:
+      modified-matrix: ${{ steps.sync.output.modified-matrix }}
+      deleted-matrix: ${{ steps.sync.output.deleted-matrix }}
       modified-docs: ${{ steps.files.outputs.all_changed_and_modified_files }}
       deleted-docs: ${{ steps.files.outputs.deleted_files }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,18 +32,16 @@ jobs:
           files: |
             **/*.txt
 
-      - name: Print shit
-        if:
+      - name: Create matrixes
         run: |
-          echo "${{ steps.files.outputs.all_changed_and_modified_files }}"
-          echo "${{ steps.files.outputs.deleted_files }}"
+          echo "modified-matrix={\"file\": \"${{ steps.files.outputs.all_changed_and_modified_files }}\"}" >> $GITHUB_OUTPUT
+          echo "deleted-matrix={\"file\": \"${{ steps.files.outputs.deleted_files }}\"}" >> $GITHUB_OUTPUT
 
   modified:
     needs: pushed
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        file: ${{ fromJSON(needs.pushed.outputs.modified-docs) }}
+      matrix: ${{ fromJSON(needs.pushed.outputs.modified-matrix) }}
 
     steps:
       - name: Checkout
@@ -55,13 +56,9 @@ jobs:
     needs: pushed
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        file: ${{ fromJSON(needs.pushed.outputs.deleted-docs) }}
+      matrix: ${{ fromJSON(needs.pushed.outputs.deleted-matrix) }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Print file
         run: |
           echo "File ${{ matrix.file }} has been deleted"
