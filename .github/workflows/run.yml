@@ -18,3 +18,8 @@ jobs:
 
       - name: Test
         run: npm run test
+
+      - name: Test something else
+        run: |
+          PAYLOAD=$(cat failure-message-slack-payload.json)
+          echo "$PAYLOAD"
