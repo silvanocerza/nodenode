@@ -4,8 +4,7 @@ const markup = require("markup-js");
 const { promises: fs } = require("fs");
 
 async function doStuff() {
-  const payloadFilePath =
-    "/Users/silvanocerza/workspace/haystack/.github/config/failure-message-slack-payload.json";
+  const payloadFilePath = ".github/config/failure-message-slack-payload.json";
   let payload = await fs.readFile(path.resolve(payloadFilePath), "utf-8");
 
   const context = { github: github.context };
