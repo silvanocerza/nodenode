@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "image",
+          "image_url": "https://avatars.githubusercontent.com/u/{{ author_id }}?v=4",
+          "alt_text": "Actor"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*<https://github.com/{{ author }}|{{ actor }}>*"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Job {{ job }} in workflow <https://github.com/{{ repository }}/actions/runs/{{ run_id }}/workflow/|{{ workflow }}>"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "Triggered by {{ event_name }} for {{ ref_type }} `{{ ref_name }}`"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "image",
+          "image_url": "https://github.githubassets.com/favicons/favicon.png",
+          "alt_text": "Github logo"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "<https://github.com/{{ repository }}/|{{ repository }}> Run <https://github.com/{{ repository }}/actions/runs/{{ run_id }}/attempts/{{ run_attempt }}/|#{{ run_number }} | Attempt #{{ run_attempt }}>"
+        }
+      ]
+    }
+  ]
+}
