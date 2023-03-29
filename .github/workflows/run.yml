@@ -28,12 +28,12 @@ jobs:
                 "elements": [
                   {
                     "type": "image",
-                    "image_url": "https://avatars.githubusercontent.com/u/${{ github.author_id }}?v=4",
+                    "image_url": "https://avatars.githubusercontent.com/u/${{ github.actor_id }}?v=4",
                     "alt_text": "Actor"
                   },
                   {
                     "type": "mrkdwn",
-                    "text": "*<https://github.com/${{ github.author }}|${{ github.actor }}>*"
+                    "text": "*<https://github.com/${{ github.actor }}|${{ github.actor }}>*"
                   }
                 ]
               },
