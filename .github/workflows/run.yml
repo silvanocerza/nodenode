@@ -2,9 +2,6 @@ name: Do things
 
 on:
   workflow_dispatch:
-  push:
-    branch:
-      - master
 
 jobs:
   job1:
