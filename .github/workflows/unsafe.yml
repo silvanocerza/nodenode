@@ -19,7 +19,7 @@ jobs:
       - name: Checkout HEAD commit
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.event.pull_request_target.head }}
 
       - name: Echo head
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.event.pull_request_target.head }}
