@@ -1,0 +1,27 @@
+name: Print yaml to job output
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    outputs:
+      data: ${{ steps.data-creator.outputs.data }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set output
+        id: data-creator
+        run: |
+          DATA="$(cat .github/workflows/yml_printer.yml)"
+          echo "data=$DATA" >> "$GITHUB_OUTPUT"
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo job1 output
+        run: echo "${{ needs.job1.outputs.data }}"
