@@ -40,7 +40,7 @@ jobs:
 
   modified:
     needs: pushed
-    if: ${{ needs.pushed.outputs.modified_matrix != '[]' }}
+    if: needs.pushed.outputs.any_changed
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.pushed.outputs.modified_matrix) }}
@@ -56,7 +56,7 @@ jobs:
 
   deleted:
     needs: pushed
-    if: ${{ needs.pushed.outputs.deleted_matrix != '[]' }}
+    if: needs.pushed.outputs.any_deleted
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.pushed.outputs.deleted_matrix) }}
