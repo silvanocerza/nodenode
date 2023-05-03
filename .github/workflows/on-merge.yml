@@ -35,15 +35,16 @@ jobs:
       - name: Create matrixes
         id: create_matrix
         run: |
-          echo "modified_matrix={\"file\": ${{ steps.files.outputs.all_changed_files }}}" >> $GITHUB_OUTPUT
-          echo "deleted_matrix={\"file\": ${{ steps.files.outputs.deleted_files }}}" >> $GITHUB_OUTPUT
+          echo "modified_matrix=${{ steps.files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+          echo "deleted_matrix=${{ steps.files.outputs.deleted_files }}" >> $GITHUB_OUTPUT
 
   modified:
     needs: pushed
     if: needs.pushed.outputs.any_changed
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.pushed.outputs.modified_matrix) }}
+      matrix:
+        file: ${{ fromJSON(needs.pushed.outputs.modified_matrix) }}
 
     steps:
       - name: Checkout
@@ -59,7 +60,8 @@ jobs:
     if: needs.pushed.outputs.any_deleted
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.pushed.outputs.deleted_matrix) }}
+      matrix:
+        file: ${{ fromJSON(needs.pushed.outputs.deleted_matrix) }}
 
     steps:
       - name: Print file
