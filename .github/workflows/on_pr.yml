@@ -31,7 +31,7 @@ jobs:
 
           changed_files = "${{ steps.files.outputs.all_changed_files }}".split()
           matches = {}
-          for path in changes_files:
+          for path in changed_files:
             with open(path, "r") as f:
               file_matches = list(re.finditer(regex, f.read()))
               if file_matches:
