@@ -23,9 +23,9 @@ jobs:
           files: |
             haystack/preview/**.py
 
-        - name: Check imports
-          shell: python
-          run: |
-            import re
-            changed_files = "${{ steps.files.outputs.all_changed_files }}"
-            print(changed_files)
+      - name: Check imports
+        shell: python
+        run: |
+          import re
+          changed_files = "${{ steps.files.outputs.all_changed_files }}"
+          print(changed_files)
