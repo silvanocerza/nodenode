@@ -8,7 +8,7 @@ on:
       - synchronize
       - ready_for_review
     paths:
-      - "haystack/preview/**.py"
+      - "haystack/preview/**/*.py"
 
 jobs:
   verify-imports:
