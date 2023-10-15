@@ -37,7 +37,7 @@ jobs:
               if file_matches:
                 matches[path] = file_matches
 
-          for path, match in matches:
+          for path, match in matches.items():
             print(f"Bad imports in file '{path}'")
             for m in match:
               print(m.group())
