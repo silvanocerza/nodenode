@@ -1,0 +1,36 @@
+name: Verify preview imports only preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - "haystack/preview/**.py"
+
+jobs:
+  verify-imports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # With the default value of 1, there are corner cases where tj-actions/changed-files
+          # fails with a `no merge base` error
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: files
+        uses: tj-actions/changed-files@v39
+        with:
+          files: |
+            haystack/preview/**.py
+
+        - name: Check imports
+          shell: python
+          run: |
+            import re
+            changed_files = "${{ steps.files.outputs.all_changed_files }}"
+            print(changed_files)
