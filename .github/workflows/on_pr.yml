@@ -27,7 +27,7 @@ jobs:
         shell: python
         run: |
           import re
-          regex = r"^(from haystack|import haystack)(?!\.preview).*"
+          regex = r"^(from haystack|import haystack)(?!\.preview| import preview)(.*)"
 
           changed_files = "${{ steps.files.outputs.all_changed_files }}".split()
           matches = {}
