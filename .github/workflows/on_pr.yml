@@ -33,7 +33,9 @@ jobs:
           matches = {}
           for path in changed_files:
             with open(path, "r") as f:
-              file_matches = list(re.finditer(regex, f.read()))
+              file_matches = []
+              for line in f.readlines():
+                file_matches.extend(re.finditer(regex, line.strip()))
               if file_matches:
                 matches[path] = file_matches
 
