@@ -47,3 +47,4 @@ jobs:
 
           if matches:
             print("::error:: Imports in haystack.preview can only import from haystack.preview")
+            import sys; sys.exit(1)
