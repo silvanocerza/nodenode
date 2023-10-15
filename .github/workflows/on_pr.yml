@@ -27,5 +27,21 @@ jobs:
         shell: python
         run: |
           import re
-          changed_files = "${{ steps.files.outputs.all_changed_files }}"
-          print(changed_files)
+          regex = r"^(from haystack|import haystack)(?!\.preview).*"
+
+          changed_files = "${{ steps.files.outputs.all_changed_files }}".split()
+          matches = {}
+          for path in changes_files:
+            with open(path, "r") as f:
+              file_matches = list(re.finditer(regex, f.read()))
+              if file_matches:
+                matches[path] = file_matches
+
+          for path, match in matches:
+            print(f"Bad imports in file '{path}'")
+            for m in match:
+              print(m.group())
+            print()
+
+          if matches:
+            print("::error:: Imports in haystack.preview can only import from haystack.preview")
