@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
+    tags-ignore:
+      - "v[0-9]+.[0-9]+.[0-9]-rc0"
 
 env:
   HATCH_VERSION: "1.9.3"
@@ -22,14 +24,7 @@ jobs:
       - name: Build Haystack
         run: echo "I'm building"
 
-      - name: Get version
-        id: version-getter
-        run: |
-          VERSION="$(hatch version)"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
       - name: Publish on PyPi
-        if: ${{ ! contains(steps.version-getter.outputs.version, 'rc0') }}
         env:
           HATCH_INDEX_USER: "__token__"
           HATCH_INDEX_AUTH: "fake-token"
