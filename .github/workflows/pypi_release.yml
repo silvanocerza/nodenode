@@ -22,14 +22,14 @@ jobs:
       - name: Build Haystack
         run: echo "I'm building"
 
-      - name: Get prerelease version
+      - name: Get version
         id: version-getter
         run: |
-          CURRENT_PRERELEASE="$(hatch version | awk -F rc '{print $2}')"
-          echo "current-prerelease=$CURRENT_PRERELEASE" >> "$GITHUB_OUTPUT"
+          VERSION="$(hatch version)"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Publish on PyPi
-        if: ${{ steps.version-getter.outputs.current-prerelease != '0' }}
+        if: ${{ ! contains(steps.version-getter.outputs.version, 'rc0') }}
         env:
           HATCH_INDEX_USER: "__token__"
           HATCH_INDEX_AUTH: "fake-token"
