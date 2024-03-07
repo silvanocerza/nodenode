@@ -1,0 +1,43 @@
+name: Project release on PyPi
+
+on:
+  push:
+    tags:
+      - "v[0-9].[0-9]+.[0-9]+*"
+
+env:
+  HATCH_VERSION: "1.9.3"
+
+jobs:
+  release-on-pypi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Hatch
+        run: pip install hatch==${{ env.HATCH_VERSION }}
+
+      - name: Build Haystack
+        run: echo "I'm building"
+
+      - name: Get prerelease version
+        id: version-getter
+        run: |
+          CURRENT_PRERELEASE="$(hatch version | awk -F \\- '{print $2}')"
+          echo "current-prerelease=$CURRENT_PRERELEASE" >> "$GITHUB_OUTPUT"
+
+      - name: Publish on PyPi
+        if: ${{ steps.version-getter.outputs.current-prerelease != 'rc0' }}
+        env:
+          HATCH_INDEX_USER: "__token__"
+          HATCH_INDEX_AUTH: "fake-token"
+        run: echo "I'm releasing!"
+
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: "🪝"
+          VERSION: "version"
+        if: always()
+        run: echo "I'm sending a message on Slack"
