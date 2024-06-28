@@ -1,0 +1,82 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Lint
+        run: echo "Linting"
+
+  version-getter:
+    runs-on: ubuntu-22.04
+    outputs:
+      sc-version: ${{ steps.set-version.outputs.version }}
+
+    steps:
+      - name: set version string for artifacts
+        id: set-version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            FULL_TAG=${GITHUB_REF#refs/tags/}
+            SC_VERSION=${FULL_TAG##Version-}
+          else
+            SC_VERSION=$GITHUB_SHA
+          fi
+          echo "version=$SC_VERSION" >> $GITHUB_OUTPUT
+
+  build-linux:
+    needs: [lint, version-getter]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Building
+        run: echo "Building Linux"
+
+  build-macos:
+    needs: [lint, version-getter]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Building
+        run: echo "Building MacOS"
+
+  build-windows:
+    needs: [lint, version-getter]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Building
+        run: echo "Building Windows"
+
+  test-linux:
+    needs: [lint, version-getter, build-linux]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Testing
+        run: echo "Testing Linux"
+
+  test-macos:
+    needs: [lint, version-getter, build-macos]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Testing
+        run: echo "Testing MacOS"
+
+  test-windows:
+    needs: [lint, version-getter, build-windows]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Testing
+        run: echo "Testing Windows"
+
+  # release - list of files uploaded to GH release is specified in the *upload* step
+  deploy_gh:
+    if: startsWith(github.ref, 'refs/tags/') # run on tagged commits
+    needs: [lint, version-getter, build-macos, build-windows]
+    runs-on: ubuntu-latest
+    name: "deploy release"
+    env:
+      ARTIFACT_FILE_PREFIX: "SuperCollider-${{ needs.version-getter.outputs.sc-version }}"
+    steps:
+      - name: download artifacts
+        run: echo "Releasing artifacts with prefix $ARTIFACT_FILE_PREFIX"
