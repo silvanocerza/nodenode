@@ -30,7 +30,7 @@ jobs:
 
           def binary_exist(binary):
             binaries_path = Path(".venv\\Scripts")
-            if (binaries_path / binary).exist():
+            if (binaries_path / binary).exists():
               return True
             print(f"Executable '{binary}' not found in folder '{binaries_path}'.")
 
