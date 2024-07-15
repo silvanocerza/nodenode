@@ -55,4 +55,4 @@ jobs:
 
       - name: "Check version"
         run: |
-          .venv\bin\python --version
+          & .venv\bin\python --version
