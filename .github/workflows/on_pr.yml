@@ -7,7 +7,6 @@ jobs:
   integration-test-pypy:
     name: "integration test | pypy on windows"
     runs-on: windows-latest
-    fail-fast: false
 
     steps:
       - uses: actions/setup-python@v5
