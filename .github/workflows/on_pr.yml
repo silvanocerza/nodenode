@@ -43,7 +43,7 @@ jobs:
       - name: "Create a virtual environment"
         shell: bash
         run: |
-          $(which pypy) venv
+          $(which pypy) -m venv
 
       - name: "Check for executables"
         shell: python
