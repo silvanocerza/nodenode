@@ -19,7 +19,7 @@ jobs:
       - name: "Create a virtual environment"
         run: |
           $pypy = (Get-Command pypy).source
-          $pypy -m venv .venv
+          & $pypy -m venv .venv
 
       - name: "Check for executables"
         shell: python
