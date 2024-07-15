@@ -12,12 +12,10 @@ jobs:
         include:
           - runs-on: "ubuntu"
             platform: "linux"
-            executable: "python"
             binaries_path: ".venv/bin"
             expected_binaries: ["pypy", "pypy3", "python"]
           - runs-on: "windows"
             platform: "windows"
-            executable: "python.exe"
             binaries_path: ".venv\\Scripts"
             expected_binaries:
               [
@@ -45,7 +43,7 @@ jobs:
       - name: "Create a virtual environment"
         shell: bash
         run: |
-          ${{ matrix.executable }} venv -p $(which pypy)
+          $(which pypy) venv
 
       - name: "Check for executables"
         shell: python
