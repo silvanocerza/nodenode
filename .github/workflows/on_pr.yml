@@ -45,7 +45,7 @@ jobs:
       - name: "Create a virtual environment"
         shell: bash
         run: |
-          ./${{ matrix.executable }} venv -p $(which pypy)
+          ${{ matrix.executable }} venv -p $(which pypy)
 
       - name: "Check for executables"
         shell: python
@@ -78,4 +78,4 @@ jobs:
       - name: "Check install"
         shell: bash
         run: |
-          ./${{ matrix.executable }} pip install anyio
+          pip install anyio
