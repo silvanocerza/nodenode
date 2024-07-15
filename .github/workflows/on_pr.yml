@@ -36,12 +36,12 @@ jobs:
 
           all_found = True
           expected_binaries = [
-              "pypy3.10.exe",
-              "pypy3.10w.exe",
+              "pypy3.9.exe",
+              "pypy3.9w.exe",
               "pypy3.exe",
               "pypyw.exe",
               "python.exe",
-              "python3.10.exe",
+              "python3.9.exe",
               "python3.exe",
               "pythonw.exe",
           ]
