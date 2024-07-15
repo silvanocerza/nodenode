@@ -1,50 +1,81 @@
-name: Verify preview imports only preview
+name: Check stuff
 
 on:
   pull_request:
-    paths:
-      - "haystack/preview/**/*.py"
 
 jobs:
-  verify-imports:
-    runs-on: ubuntu-latest
+  integration-test-pypy:
+    name: "integration test | pypy on ${{ matrix.runs-on }}"
+    runs-on: ${{ matrix.runs-on }}-latest
+    strategy:
+      matrix:
+        include:
+          - runs-on: "ubuntu"
+            platform: "linux"
+            executable: "python"
+            binaries_path: ".venv/bin"
+            expected_binaries: ["pypy", "pypy3", "python"]
+          - runs-on: "windows"
+            platform: "windows"
+            executable: "python.exe"
+            binaries_path: ".venv\\Scripts"
+            expected_binaries:
+              [
+                "pypy3.10.exe",
+                "pypy3.10w.exe",
+                "pypy3.exe",
+                "pypyw.exe",
+                "python.exe",
+                "python3.10.exe",
+                "python3.exe",
+                "pythonw.exe",
+              ]
+
+      fail-fast: false
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          # With the default value of 1, there are corner cases where tj-actions/changed-files
-          # fails with a `no merge base` error
-          fetch-depth: 0
+          python-version: "pypy3.9"
 
-      - name: Get changed files
-        id: files
-        uses: tj-actions/changed-files@v39
-        with:
-          files: |
-            haystack/preview/**.py
+      - name: PyPy info
+        shell: bash
+        run: which pypy
 
-      - name: Check imports
+      - name: "Create a virtual environment"
+        shell: bash
+        run: |
+          ./${{ matrix.executable }} venv -p $(which pypy)
+
+      - name: "Check for executables"
         shell: python
         run: |
-          import re
-          regex = r"^(from haystack|import haystack)(?!\.preview| import preview)(.*)"
+          import sys
+          import json
+          from pathlib import Path
 
-          changed_files = "${{ steps.files.outputs.all_changed_files }}".split()
-          matches = {}
-          for path in changed_files:
-            with open(path, "r") as f:
-              file_matches = []
-              for line in f.readlines():
-                file_matches.extend(re.finditer(regex, line.strip()))
-              if file_matches:
-                matches[path] = file_matches
+          def binary_exist(binary):
+            binaries_path = Path("${{ matrix.binaries_path }}")
+            if (binaries_path / binary).exist():
+              return True
+            print(f"Executable '{binary}' not found in folder '{binaries_path}'.")
 
-          for path, match in matches.items():
-            print(f"Bad imports in file '{path}'")
-            for m in match:
-              print(m.group())
-            print()
+          all_found = True
+          expected_binaries = json.loads(${{ matrix.expected_binaries }})
+          for binary in expected_binaries:
+            if not binary_exist(binary):
+              all_found = False
 
-          if matches:
-            print("::error:: Imports in haystack.preview can only import from haystack.preview")
-            import sys; sys.exit(1)
+          if not all_found:
+            print("One or more expected executables were not found.")
+            sys.exit(1)
+
+      - name: "Check version"
+        shell: bash
+        run: |
+          .venv/bin/python --version
+
+      - name: "Check install"
+        shell: bash
+        run: |
+          ./${{ matrix.executable }} pip install anyio
