@@ -1,0 +1,19 @@
+name: Manual workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        description: Version to release
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "Version is ${{ inputs.version }}"
+
+      - run: ls -la
